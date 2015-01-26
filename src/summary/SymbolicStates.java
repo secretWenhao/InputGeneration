@@ -13,6 +13,10 @@ public class SymbolicStates {
 		this.states = states;
 	}
 	
+	public List<Expression> getStates() {
+		return this.states;
+	}
+	
 	public void updateSymbolicStates(Expression newEx) {
 		//1  v0 = v1
 		//2  v0 = v1 add v2
@@ -166,6 +170,13 @@ public class SymbolicStates {
 		}
 	}
 	
+	public SymbolicStates clone() {
+		ArrayList<Expression> result = new ArrayList<Expression>();
+		for (Expression ex : this.states)
+			result.add(ex.clone());
+		return new SymbolicStates(result);
+	}
+	
 	public SymbolicStates getTrimmedSymbolicStates_Fstatic() {
 		ArrayList<Expression> result = new ArrayList<Expression>();
 		for (Expression ex : this.states) {
@@ -175,4 +186,5 @@ public class SymbolicStates {
 		}
 		return new SymbolicStates(result);
 	}
+
 }

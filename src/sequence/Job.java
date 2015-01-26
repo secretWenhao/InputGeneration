@@ -16,7 +16,7 @@ public class Job {
 
 	private EventSequence eventSeq = new EventSequence();
 	private List<PathSummary> psSeq = new ArrayList<PathSummary>();
-	private Solver solver = new Solver();
+	private JobAssistant jobAssistant = new JobAssistant();
 	
 	private List<EventSequence> extendedEventSeq = new ArrayList<EventSequence>();
 	
@@ -44,11 +44,10 @@ public class Job {
 		PathSummary firstPS = psSeq.get(0);
 		Event firstEvent = eventSeq.getList().get(0);
 		for (Expression cond : firstPS.getPathCondition()) {
-			if (canSkip(cond))
-				continue;
 			//TODO find anchors
-			List<PathSummary> anchors = solver.findAnchors(cond, this, summaries, guiModel, initialStates);
-			
+			List<PathSummary> anchors = jobAssistant.findAnchors(cond, summaries, initialStates);
+			if (anchors.size() == 0)
+				System.out.println("this job is dead.");
 			
 		}
 	}
@@ -69,14 +68,5 @@ public class Job {
 		return result;
 	}
 	
-	
-	private boolean canSkip(Expression cond) {
-		Expression left = (Expression) cond.getChildAt(0);
-		Expression right = (Expression) cond.getChildAt(1);
-		if (!left.getUserObject().toString().equals("$Fstatic") && !left.getUserObject().toString().startsWith("#"))
-			return true;
-		if (!right.getUserObject().toString().equals("$Fstatic") && !right.getUserObject().toString().startsWith("#"))
-			return true;
-		return false;
-	}
+
 }

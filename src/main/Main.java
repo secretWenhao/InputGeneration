@@ -4,8 +4,10 @@ import gui.GUIModel;
 import gui.ManualGUIModel;
 
 import java.util.List;
+import java.util.Map;
 
 import sequence.Generator;
+import sequence.YicesVariable;
 import staticFamily.StaticApp;
 import summary.PathSummary;
 import summary.SymbolicStates;
@@ -33,18 +35,16 @@ public class Main {
 		String apkPath = apps[0];
 		String targetLine = targetLines[0];
 		
-		
-		testApp = StaticInfo.initAnalysis(apkPath, false);
+
+		testApp = StaticInfo.initAnalysis(apkPath, true);
 
 		GUIModel guimodel = ManualGUIModel.OneGUIModelPls();
 		
 		ExecutionEngine ee = new ExecutionEngine(testApp, guimodel);
-		List<PathSummary> psList = ee.buildPathSummaries(false);
+		List<PathSummary> psList = ee.buildPathSummaries(true);
 		SymbolicStates initialStates = ee.getInitialStates().getTrimmedSymbolicStates_Fstatic();
-		
 		Generator g = new Generator(psList, guimodel, initialStates);
 		g.findSequences(targetLine);
-
 	}
 	
 	private static void testPSList(List<PathSummary> psList) {

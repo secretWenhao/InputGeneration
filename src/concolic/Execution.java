@@ -663,8 +663,8 @@ public class Execution {
 	
 	private Expression getReverseCondition(Expression ex) {
 		String op = ex.getUserObject().toString();
-		if (op.equals("=="))		op = "!=";
-		else if (op.equals("!="))	op = "==";
+		if (op.equals("="))		op = "/=";
+		else if (op.equals("/="))	op = "=";
 		else if (op.equals("<"))	op = ">=";
 		else if (op.equals("<="))	op = ">";
 		else if (op.equals(">"))	op = "<=";
