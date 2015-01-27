@@ -17,6 +17,7 @@ public class Job {
 	private EventSequence eventSeq = new EventSequence();
 	private List<PathSummary> psSeq = new ArrayList<PathSummary>();
 	private JobAssistant jobAssistant = new JobAssistant();
+	private boolean killMe = false;
 	
 	private List<EventSequence> extendedEventSeq = new ArrayList<EventSequence>();
 	
@@ -43,13 +44,17 @@ public class Job {
 		 * */
 		PathSummary firstPS = psSeq.get(0);
 		Event firstEvent = eventSeq.getList().get(0);
+		List<List<PathSummary>> allAnchors = new ArrayList<List<PathSummary>>();
 		for (Expression cond : firstPS.getPathCondition()) {
-			//TODO find anchors
 			List<PathSummary> anchors = jobAssistant.findAnchors(cond, summaries, initialStates);
-			if (anchors.size() == 0)
-				System.out.println("this job is dead.");
-			
+			if (anchors.size() == 0) {
+				System.out.println("found 0 anchor for condition: " + cond.toYicesStatement());
+				killMe = true;
+				return;
+			}
+			allAnchors.add(anchors);
 		}
+		// TODO g
 	}
 	
 	public void sequenceComplete() {
