@@ -40,7 +40,7 @@ public class Jdb {
 	
 	public String readLine() {
 		String result = "";
-		JDBListener jdbL = new JDBListener(in);
+		ProcessInputListener jdbL = new ProcessInputListener(in);
 		ExecutorService executor = Executors.newFixedThreadPool(1);
 		Future<String> newestLine = executor.submit(jdbL);
 		try {
