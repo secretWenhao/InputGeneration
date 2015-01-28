@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import sequence.Generator;
-import sequence.YicesVariable;
 import staticFamily.StaticApp;
 import summary.PathSummary;
 import summary.SymbolicStates;
@@ -15,6 +14,7 @@ import tools.Adb;
 import analysis.Expression;
 import analysis.StaticInfo;
 import concolic.ExecutionEngine;
+import constraintSolver.YicesVariable;
 
 public class Main {
 
@@ -36,12 +36,12 @@ public class Main {
 		String targetLine = targetLines[0];
 		
 
-		testApp = StaticInfo.initAnalysis(apkPath, true);
+		testApp = StaticInfo.initAnalysis(apkPath, false);
 
 		GUIModel guimodel = ManualGUIModel.OneGUIModelPls();
 		
 		ExecutionEngine ee = new ExecutionEngine(testApp, guimodel);
-		List<PathSummary> psList = ee.buildPathSummaries(true);
+		List<PathSummary> psList = ee.buildPathSummaries(false);
 		SymbolicStates initialStates = ee.getInitialStates().getTrimmedSymbolicStates_Fstatic();
 		Generator g = new Generator(psList, guimodel, initialStates);
 		g.findSequences(targetLine);

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import constraintSolver.YicesVariable;
 import summary.EventHandlerSummary;
 import summary.PathSummary;
 import analysis.Expression;

@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import main.Paths;
-import sequence.YicesVariable;
 import tools.ProcessInputListener;
 import analysis.Expression;
 
@@ -26,32 +25,9 @@ public class Yices {
 	private OutputStream out;
 	private List<YicesVariable> definedVariables = new ArrayList<YicesVariable>()	;
 	
-	
-	public static void main(String[] args) {
-		Yices y = new Yices(Paths.yicesPath);
-		y.init();
-		Expression ex = new Expression("=");
-		ex.add(new Expression("s1"));
-		ex.add(new Expression("1"));
-		System.out.println(ex.toYicesStatement());
-		Expression ex1 = new Expression("=");
-		ex1.add(new Expression("s1"));
-		ex1.add(new Expression("1"));
-		
-		Expression ex2 = new Expression("=");
-		ex2.add(new Expression("s1"));
-		ex2.add(new Expression("1"));
-
-		List<Expression> exList = new ArrayList<Expression>(Arrays.asList(ex, ex1));
-		if (y.checkSat(exList, ex2))
-			System.out.println("aa");
-
-	}
-	
 	public Yices(String path) {
 		this.yicesPath = path;
 	}
-	
 	
 	public boolean checkSat(List<Expression> states, Expression cond) {
 		init();
@@ -66,6 +42,20 @@ public class Yices {
 		return result.equals("all good");
 	}
 	
+	public boolean checkSat(List<Expression> states, List<Expression> conds) {
+		init();
+		for (Expression ex : states) {
+			defineVariables(ex);
+			input("(assert " + ex.toYicesStatement() + ")");
+		}
+		for (Expression cond : conds) {
+			defineVariables(cond);
+			input("(assert " + cond.toYicesStatement() + ")");
+		}
+		String result = readError();
+		exit();
+		return result.equals("all good");
+	}
 	
 	private void defineVariables(Expression ex) {
 		if (ex.toString().startsWith("s")) {
@@ -104,7 +94,6 @@ public class Yices {
 	
 	private void input(String s) {
 		try {
-			System.out.println("[input]" + s);
 			out.write((s + "\n").getBytes());
 			out.flush();
 		}

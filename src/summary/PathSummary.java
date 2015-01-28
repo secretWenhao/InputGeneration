@@ -24,6 +24,11 @@ public class PathSummary implements Serializable{
 	
 	private boolean isConcrete = false;
 	
+	@Override
+	public String toString() {
+		return eventSequence.toString();
+	}
+	
 	public ArrayList<String> getExecutionLog() {
 		return executionLog;
 	}

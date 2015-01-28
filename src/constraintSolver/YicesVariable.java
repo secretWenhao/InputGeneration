@@ -1,4 +1,4 @@
-package sequence;
+package constraintSolver;
 
 public class YicesVariable {
 

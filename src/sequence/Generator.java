@@ -40,8 +40,9 @@ public class Generator {
 			List<Job> newJobs = new ArrayList<Job>();
 			for (Job job : jobs) {
 				job.extendSequence(summaries, guiModel, initialStates);
+				System.out.println("WATWAT");
 				newJobs.addAll(job.getUnfinishedJobs());
-				results.addAll(job.getValidatedSequences());
+				results.addAll(job.getCompletedSequences());
 			}
 			jobs = newJobs;
 		}

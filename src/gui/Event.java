@@ -2,6 +2,7 @@ package gui;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Event implements Serializable{
 
 	public int type;
@@ -38,7 +39,7 @@ public class Event implements Serializable{
 			result += "launch";
 		}
 		
-		result += "]";
+		result += "] in " + this.srcGUIStateID;
 		return result;
 	}
 	
